@@ -2,7 +2,7 @@ module HaskellSkeleton ( getHelloString, getNumberOne ) where
 
 getHelloString :: String
 getHelloString = do
-    "Hello Friend."
+    "Hello friend."
 
 getNumberOne :: Integer
 getNumberOne = do

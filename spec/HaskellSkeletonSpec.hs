@@ -10,6 +10,6 @@ spec :: Spec
 spec = do
   describe "getHelloString" $ do
     it "returns a string" $ do
-      getHelloString `shouldBe` "Hello Friend."
+      getHelloString `shouldBe` "Hello friend."
     it "returns a number" $ do
       getNumberOne `shouldBe` 1
