@@ -1,3 +1,4 @@
 #!/bin/sh -e
 
-runhaskell -isrc -ispec spec/Spec.hs
+#runhaskell -isrc -ispec spec/Spec.hs
+cabal test

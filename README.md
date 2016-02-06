@@ -15,16 +15,17 @@ bin/hs
 
 This section explains how to use scripts that are intended to ease the development of this project.
 
-Install dependencies.
+Install dependencies and develoment tools.
 
 ```sh
 cabal install --only-dependencies --enable-tests
 ```
 
-Run tests.
+Run style check and tests.
 
 ```sh
-./test.sh
+./run-style-check.sh
+./run-tests.sh
 ```
 
 Build the project like Jenkins.
