@@ -1,10 +1,19 @@
 # HaskellSkeleton
 
+## Setup
+
+Install project dependencies.
+
+```sh
+script/setup.sh
+```
+
+
 ## Usage
 
-This section explains how to use this project.
+This section explains how to use the project.
 
-Run the main entry point program.
+Run the main program.
 
 ```sh
 bin/hs
@@ -13,29 +22,40 @@ bin/hs
 
 ## Development
 
-This section explains how to use scripts that are intended to ease the development of this project.
+This section explains how to improve the project.
 
-Install dependencies and development tools.
+Configure Git on Windows before cloning. This avoids problems with Vagrant and VirtualBox.
 
 ```sh
-cabal install --only-dependencies --enable-tests
+git config --global core.autocrlf input
 ```
 
-Run style check and tests.
+Create the development virtual machine on Linux and Darwin.
 
 ```sh
-./run-style-check.sh
-./run-tests.sh
+script/vagrant/create.sh
 ```
 
-Build the project like Jenkins.
+Create the development virtual machine on Windows.
 
-```sh
-./build.sh
+```bat
+script\vagrant\create.bat
 ```
 
-Delete compiled data in the `dist` directory.
+Run tests.
 
 ```sh
-./clean.sh
+script/test.sh [--help]
+```
+
+Run style check.
+
+```sh
+script/check.sh [--help]
+```
+
+Build project.
+
+```sh
+script/build.sh
 ```
