@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# In case this has not been run before, dependencies cannot be installed.
+cabal update
+
 cabal clean
 rm -rf build
 
