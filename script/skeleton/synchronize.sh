@@ -1,9 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}" || exit 1
+    pwd
+)
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/skeleton.sh"
+. "${SCRIPT_DIRECTORY}/../../configuration/project.sh"
 TARGET="${1}"
 
 if [ "${TARGET}" = '' ]; then
@@ -41,8 +44,19 @@ mkdir -p "${TARGET}/documentation"
 cp -R documentation/* "${TARGET}/documentation"
 mkdir -p "${TARGET}/script"
 cp -R script/* "${TARGET}/script"
+mkdir -p "${TARGET}/debian"
+cp -R debian/* "${TARGET}/debian"
+mkdir -p "${TARGET}/configuration"
+cp -R configuration/* "${TARGET}/configuration"
+mkdir -p "${TARGET}/inventory"
+cp -R inventory/* "${TARGET}/inventory"
 cp .gitignore "${TARGET}"
+cp .shellspec "${TARGET}"
+cp playbook.yaml "${TARGET}"
 cp Vagrantfile "${TARGET}"
+cp Dockerfile "${TARGET}"
+cp Jenkinsfile "${TARGET}"
+cp sonar-project.properties "${TARGET}"
 cd "${TARGET}" || exit 1
 echo "${NAME}" | grep --quiet 'Skeleton$' && IS_SKELETON=true || IS_SKELETON=false
 
@@ -54,4 +68,8 @@ DASH=$(echo "${NAME}" | ${SED} --regexp-extended 's/([A-Za-z0-9])([A-Z])/\1-\2/g
 INITIALS=$(echo "${NAME}" | ${SED} 's/\([A-Z]\)[a-z]*/\1/g' | tr '[:upper:]' '[:lower:]')
 UNDERSCORE=$(echo "${DASH}" | ${SED} --regexp-extended 's/-/_/g')
 # shellcheck disable=SC2016
-${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c '${1} -i --expression "s/HaskellSkeleton/${2}/g" --expression "s/haskell-skeleton/${3}/g" --expression "s/haskell_skeleton/${4}/g" --expression "s/bin\/ss/bin\/${5}/g" --expression "s/hs\\\\/${5}\\\\/g" "${6}"' '_' "${SED}" "${NAME}" "${DASH}" "${UNDERSCORE}" "${INITIALS}" '{}' \;
+# TODO: Delete after testing the include way works throughout all projects.
+#${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c '${1} --in-place --expression "s/HaskellSkeleton/${2}/g" --expression "s/haskell-skeleton/${3}/g" --expression "s/haskell_skeleton/${4}/g" "${5}"' '_' "${SED}" "${NAME}" "${DASH}" "${UNDERSCORE}" '{}' \;
+${FIND} . -regextype posix-extended -type f -regex "${INCLUDE_FILTER}" -exec sh -c '${1} --in-place --expression "s/HaskellSkeleton/${2}/g" --expression "s/haskell-skeleton/${3}/g" --expression "s/haskell_skeleton/${4}/g" "${5}"' '_' "${SED}" "${NAME}" "${DASH}" "${UNDERSCORE}" '{}' \;
+# shellcheck disable=SC1117
+${SED} --in-place --expression "s/bin\/hs/bin\/${INITIALS}/g" README.md Dockerfile

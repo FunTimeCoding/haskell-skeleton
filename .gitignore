@@ -1,4 +1,10 @@
-build
-tmp
-.vagrant
-dist
+/build
+/tmp
+/.vagrant
+/debian/files
+/debian/debhelper-build-stamp
+/debian/haskell-skeleton
+/debian/haskell-skeleton.substvars
+/documentation/man/*.1
+/.scannerwork
+/dist
