@@ -36,4 +36,6 @@ UNDERSCORE=$(echo "${DASH}" | ${SED} --regexp-extended 's/-/_/g')
 ${FIND} . -regextype posix-extended -type f -regex "${INCLUDE_FILTER}" -exec sh -c '${1} --in-place --expression "s/HaskellSkeleton/${2}/g" --expression "s/haskell-skeleton/${3}/g" --expression "s/haskell_skeleton/${4}/g" "${5}"' '_' "${SED}" "${NAME}" "${DASH}" "${UNDERSCORE}" '{}' \;
 # shellcheck disable=SC1117
 ${SED} --in-place --expression "s/bin\/hs/bin\/${INITIALS}/g" README.md Dockerfile
+git mv src/HaskellSkeleton.hs "src/${NAME}.hs"
+git mv spec/HaskellSkeletonSpec.hs "src/${NAME}Spec.hs"
 git mv bin/hs "bin/${INITIALS}"
